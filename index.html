@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>考试 / DDL 倒计时</title>
+    <meta
+      name="description"
+      content="一个可直接部署到 GitHub Pages 的考试与 DDL 倒计时小项目，支持官方考试日期和自定义任务。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <main class="app shell">
+      <header class="hero card">
+        <div>
+          <p class="eyebrow">Exam / Deadline Countdown</p>
+          <h1>考试 / DDL 倒计时</h1>
+          <p class="subtitle">
+            内置常见考试日期，可自行添加课程作业、论文投稿、项目里程碑。所有自定义内容保存在浏览器本地，无需服务器。
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button id="theme-toggle" class="ghost-btn" type="button">切换主题</button>
+          <a class="ghost-btn" href="#add-form">添加 DDL</a>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="card stat">
+          <span>当前时间</span>
+          <strong id="now-text">--</strong>
+        </article>
+        <article class="card stat accent">
+          <span>最近的事件</span>
+          <strong id="next-name">--</strong>
+          <small id="next-left">--</small>
+        </article>
+        <article class="card stat">
+          <span>全部事件</span>
+          <strong id="total-count">0</strong>
+        </article>
+      </section>
+
+      <section class="panel-row">
+        <section class="card controls">
+          <div class="controls-top">
+            <h2>筛选</h2>
+            <button id="reset-custom" class="ghost-btn danger" type="button">清空自定义 DDL</button>
+          </div>
+          <div class="filters">
+            <label>
+              <span>关键词</span>
+              <input id="search-input" type="search" placeholder="搜索考试 / 课程 / 论文" />
+            </label>
+            <label>
+              <span>分类</span>
+              <select id="category-filter">
+                <option value="all">全部</option>
+                <option value="exam">只看考试</option>
+                <option value="ddl">只看 DDL</option>
+              </select>
+            </label>
+            <label>
+              <span>状态</span>
+              <select id="status-filter">
+                <option value="all">全部</option>
+                <option value="upcoming">未结束</option>
+                <option value="past">已结束</option>
+              </select>
+            </label>
+            <label>
+              <span>排序</span>
+              <select id="sort-filter">
+                <option value="soonest">按最近时间</option>
+                <option value="latest">按最晚时间</option>
+                <option value="title">按名称</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="card add-card">
+          <h2>添加自定义 DDL</h2>
+          <form id="add-form" class="add-form">
+            <label>
+              <span>名称</span>
+              <input name="title" type="text" placeholder="例如：操作系统大作业" required />
+            </label>
+            <label>
+              <span>时间</span>
+              <input name="datetime" type="datetime-local" required />
+            </label>
+            <label>
+              <span>备注</span>
+              <input name="note" type="text" placeholder="例如：提交到雨课堂 / 交 PDF" />
+            </label>
+            <button type="submit" class="primary-btn">保存到本地</button>
+          </form>
+        </section>
+      </section>
+
+      <section class="card list-card">
+        <div class="list-header">
+          <div>
+            <h2>倒计时列表</h2>
+            <p>官方考试日期不可删除；你添加的 DDL 可以单独移除。</p>
+          </div>
+          <small id="result-count">0 条结果</small>
+        </div>
+        <div id="event-list" class="event-list"></div>
+      </section>
+
+      <section class="card source-card">
+        <h2>内置官方考试日期来源</h2>
+        <ul>
+          <li>CET 2026 上半年：口试 2026-05-23 至 2026-05-24，笔试 2026-06-13。</li>
+          <li>NCRE 2026 年 3 月：2026-03-28 至 2026-03-30。</li>
+          <li>NTCE 2026 上半年：面试 2026-05-16 至 2026-05-17。</li>
+          <li>2026 考研初试：2025-12-20 至 2025-12-21（已保留用于回顾）。</li>
+        </ul>
+        <p class="source-note">
+          具体来源和引用已写在 README，便于你之后自己更新年份。
+        </p>
+      </section>
+    </main>
+
+    <template id="event-item-template">
+      <article class="event-item card-lite">
+        <div class="event-main">
+          <div class="badges"></div>
+          <h3 class="title"></h3>
+          <p class="note"></p>
+          <p class="time"></p>
+        </div>
+        <div class="event-side">
+          <div class="countdown"></div>
+          <button class="delete-btn" type="button">删除</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
